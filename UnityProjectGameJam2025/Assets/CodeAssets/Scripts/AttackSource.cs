@@ -9,8 +9,8 @@ public class AttackSource : MonoBehaviour
     [SerializeField] private GameObject _characterLeftFoot;
     [SerializeField] private GameObject _characterRightFoot;
     [SerializeField] private GameObject _characterHead;
-    public static event Action<Vector3, GameObject> OnAttack;
-    private Vector3 _frameBeforeAttackVector;
+    public static event Action<Vector3, GameObject> OnAttackStart;
+    public static event Action OnAttackEnd;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,20 +23,26 @@ public class AttackSource : MonoBehaviour
         
     }
 
-    void HandleBeforeAttackFrame(int attackType)
+    // Gets Invoked by Attack Animation
+    // attackType is the bodypart that makes the attack movement
+    // Sends out static event to all AttackReceivers
+
+    void HandleStartAttackFrame(int attackType)
     {
         GameObject attackBodyPart = AttackTypeGameObject(attackType);
-        _frameBeforeAttackVector = attackBodyPart.transform.position;
+        Vector3 attackStartVector = attackBodyPart.transform.position;
+        
+        OnAttackStart?.Invoke(attackStartVector, attackBodyPart);
     }
 
-    void HandleAttackFrame(int attackType)
+    // Gets Invoked at end of Attack Animation
+    // Sends out static event to all AttackReceivers
+    void HandleEndAttackFrame(int attackType)
     {
-        GameObject attackBodyPart = AttackTypeGameObject(attackType);
-        Vector3 attackDirection = attackBodyPart.transform.position - _frameBeforeAttackVector;
-        Vector3 attackVector = attackDirection.normalized;
-        OnAttack?.Invoke(attackVector, attackBodyPart);
-    }
-
+        OnAttackEnd?.Invoke();
+    }   
+    
+    // here, attackType is mapped to the corresponding child gameObject
     GameObject AttackTypeGameObject(int attackType)
     {
         return attackType switch
