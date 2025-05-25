@@ -4,46 +4,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
-public class EnemyPathfindingAi : MonoBehaviour
+public class FollowState : IState
 {
-    public enum EnemyState { Idle, Fighting, Climbing }
-    public EnemyState CurrentEnemyState;
-    [SerializeField] GameObject _player;
-    private Animator _animator;
-    private NavMeshAgent _navMeshAgent;
-    private NavMeshPath _navMeshPath;
+    private EnemyController enemy;
+    
     private Vector3 _destination;
     private List<Vector3> _pathCorners = new List<Vector3>();
-    private Rigidbody _rigidbody;
     private bool _following = false;
     private int _pathCornerIndex = 0;
+    private NavMeshPath _navMeshPath;
 
-    private bool _cNewDest = false;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public FollowState(EnemyController enemy) 
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
-        _navMeshAgent = GetComponent<NavMeshAgent>();
+        this.enemy = enemy;
+    }
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public void Enter()
+    {
         _navMeshPath = new NavMeshPath();
-        _navMeshAgent.updatePosition = false;
-        _navMeshAgent.updateRotation = false;
+        enemy.EnemyNavMeshAgent.updatePosition = false;
+        enemy.EnemyNavMeshAgent.updateRotation = false;
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            _cNewDest = !_cNewDest;
-        }
-
-        if(_cNewDest)
-        {
-            NewDestination();
-        }
-        
+        Debug.Log("x");
+        NewDestination();
         if (_following)
         {
             Follow();
@@ -52,14 +40,14 @@ public class EnemyPathfindingAi : MonoBehaviour
 
     void NewDestination()
     {
-        _destination = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
+        _destination = new Vector3(enemy.FollowTarget.transform.position.x, enemy.transform.position.y, enemy.FollowTarget.transform.position.z);
         _navMeshPath = new NavMeshPath();
-        _navMeshAgent.ResetPath();
+        enemy.EnemyNavMeshAgent.ResetPath();
 
-        _navMeshAgent.enabled = false;
-        _navMeshAgent.enabled = true;
+        enemy.EnemyNavMeshAgent.enabled = false;
+        enemy.EnemyNavMeshAgent.enabled = true;
 
-        bool pathFound = _navMeshAgent.CalculatePath(_destination, _navMeshPath);
+        bool pathFound = enemy.EnemyNavMeshAgent.CalculatePath(_destination, _navMeshPath);
     
         if (!pathFound)
         {
@@ -74,7 +62,7 @@ public class EnemyPathfindingAi : MonoBehaviour
     
         _pathCornerIndex = 0;
         _following = true;
-        _animator.SetBool("run", true);
+        enemy.EnemyAnimator.SetBool("run", true);
 
         for (int i = 0; i < _pathCorners.Count - 1; i++)
         {
@@ -85,7 +73,7 @@ public class EnemyPathfindingAi : MonoBehaviour
     void Follow()
     {
         
-        Vector3 currentPos = transform.position;
+        Vector3 currentPos = enemy.transform.position;
         Vector3 targetPos;
         if(_pathCornerIndex + 1 < _pathCorners.Count)
         {
@@ -97,22 +85,32 @@ public class EnemyPathfindingAi : MonoBehaviour
         }
         if (AreVectorsClose(currentPos, targetPos))
         {
-            _rigidbody.MovePosition(targetPos);
+            enemy.EnemyRigidbody.MovePosition(targetPos);
             _pathCornerIndex++;
         }
         if (AreVectorsClose(currentPos, _destination))
         {
             _pathCornerIndex=0;
             _following = false;
-            _animator.SetBool("run", false);
+            enemy.EnemyAnimator.SetBool("run", false);
         }
         Vector3 targetDir = targetPos-currentPos;
         Quaternion newRotation = Quaternion.LookRotation(targetDir, Vector3.up);
-        _rigidbody.MoveRotation(newRotation);  
+        enemy.EnemyRigidbody.MoveRotation(newRotation);  
 
     }
     bool AreVectorsClose(Vector3 a, Vector3 b, float threshold = 0.05f)
     {
         return (a - b).sqrMagnitude < threshold;
+    }
+    
+    public void Exit()
+    {
+        enemy.EnemyAnimator.SetBool("run", false);
+
+        _following = false;
+        _pathCornerIndex = 0;
+        _pathCorners = new List<Vector3>();
+        _destination = Vector3.zero;
     }
 }

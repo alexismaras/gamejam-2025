@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public bool IsGrounded { get; private set; }
 
     [SerializeField] private LayerMask _climbableLayer;
-    public LayerMask ClimbableLayer; 
+    public LayerMask ClimbableLayer => _climbableLayer; 
 
     [SerializeField] private Camera _playerCamera; // Assign in Inspector
     public Camera PlayerCamera => _playerCamera;
@@ -40,8 +40,6 @@ public class PlayerController : MonoBehaviour
     }
     void Start()
     {
-        PlayerAnimator.SetLayerWeight(0, 1);
-        PlayerAnimator.SetLayerWeight(1, 0);
         ChangeState(new IdleState(this));
     }
 
