@@ -17,29 +17,34 @@ public class PlayerPlatzhalterV2Script : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("FriendlyNPC"))
-        {
-            _isInGrannyRange = true;
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("FriendlyNPC"))
+    //    {
+    //        _isInGrannyRange = true;
 
-        }
-    }
+    //    }
+    //}
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("FriendlyNPC"))
-        {
-            _isInGrannyRange = false;
-        }
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("FriendlyNPC"))
+    //    {
+    //        _isInGrannyRange = false;
+    //    }
+    //}
 
-    IEnumerator GrannyCountdown()
-    {
-        yield return new WaitForSeconds(1);
-        if (!_isInGrannyRange)
-        {
-            yield return;
-        }
-    }
+    ////IEnumerator GrannyCountdown()
+    ////{
+    ////    yield return new WaitForSeconds(1);
+    ////    if (!_isInGrannyRange)
+    ////    {
+    ////        yield return;
+    ////    }
+    ////}
+
+    //void GrannyCountdown()
+    //{
+
+    //}
 }
