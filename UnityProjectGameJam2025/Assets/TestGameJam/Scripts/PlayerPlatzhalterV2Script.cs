@@ -3,48 +3,32 @@ using UnityEngine;
 
 public class PlayerPlatzhalterV2Script : MonoBehaviour
 {
-    bool _isInGrannyRange;
+    public float GrannySaviorTime = 2;
+    GameObject _granny;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void OnTriggerEnter(Collider other)             // Starte ein Invoke wenn man in der Granny Range ist
     {
-        
+        if (other.gameObject.CompareTag("FriendlyNPC"))
+        {
+            _granny = other.gameObject;
+            Invoke("GrannyCountdown", GrannySaviorTime);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit(Collider other)              // Breche den Granny Invoke ab
     {
-        
+        if (other.gameObject.CompareTag("FriendlyNPC"))
+        {
+            CancelInvoke("GrannyCountdown");
+        }
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("FriendlyNPC"))
-    //    {
-    //        _isInGrannyRange = true;
-
-    //    }
-    //}
-
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("FriendlyNPC"))
-    //    {
-    //        _isInGrannyRange = false;
-    //    }
-    //}
-
-    ////IEnumerator GrannyCountdown()
-    ////{
-    ////    yield return new WaitForSeconds(1);
-    ////    if (!_isInGrannyRange)
-    ////    {
-    ////        yield return;
-    ////    }
-    ////}
-
-    //void GrannyCountdown()
-    //{
-
-    //}
+    void GrannyCountdown()                                  // Teile mit, dass Granny gerettet wurde und zerstöre die Granny dann
+    {
+        Debug.Log("Granny gerettet!");
+        if (_granny != null)
+        {
+            Destroy(_granny.gameObject);
+        }
+    }
 }
