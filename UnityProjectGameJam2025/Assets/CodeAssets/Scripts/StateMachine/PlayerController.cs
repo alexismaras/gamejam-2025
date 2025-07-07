@@ -46,6 +46,11 @@ public class PlayerController : MonoBehaviour
         PlayerTransform = this.gameObject.transform;
         GroundCheck();
         currentState?.Update();
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && currentState is not FightState)
+        {
+            ChangeState(new FightState(this));
+        }
     }
 
     public void ChangeState(IState newState)

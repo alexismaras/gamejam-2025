@@ -28,6 +28,8 @@ public class IdleState : IState
         player.PlayerAnimator.SetBool("isIdleState", true);
         player.PlayerAnimator.SetBool("isFightingState", false);
         player.PlayerAnimator.SetBool("isClimbingState", false);
+
+        player.PlayerRigidbody.useGravity = true;
     }
 
     // Update is called once per frame
@@ -38,13 +40,9 @@ public class IdleState : IState
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Jump();
+            player.ChangeState(new JumpState(player));
         }
         
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            player.ChangeState(new FightState(player));
-        }
     }
     
     // Sets Animator floats based on verical and horizontal Input, Invoked by CharacterStateMachine Class if State is Idle
@@ -84,10 +82,7 @@ public class IdleState : IState
     // NOTE: I should probably outsource that logic to the animator
     // NOTE: Currently there is only a standing-jump and running-jump animation but no walking-jump animation... 
     //       additionally, the jump animations root motion in y direction are baked into pose so jumping does nothing than looking like jumping
-    void Jump()
-    {
-        if (player.IsGrounded) player.PlayerRigidbody.AddForce(0, 10000 * player.JumpForce, 0);
-    }
+    
 
     // Gets normalized look Direction of Camera, so this Gameobject can rotate in this Direction.
     void GetLookDirection()
