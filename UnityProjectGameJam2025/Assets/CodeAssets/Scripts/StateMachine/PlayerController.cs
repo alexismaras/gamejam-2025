@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-[RequireComponent(typeof(WallDetector))]
 public class PlayerController : MonoBehaviour
 {
     private IState currentState;
@@ -10,17 +9,13 @@ public class PlayerController : MonoBehaviour
     public Transform PlayerTransform { get; private set; }
     public Animator PlayerAnimator { get; private set; }
     public Collider PlayerCollider { get; private set; }
-    public RaycastHit PlayerWallHit { get; private set; }
-    public float PlayerWallHeight { get; private set; }
+
     public bool IsGrounded { get; private set; }
 
-    [SerializeField] private LayerMask _climbableLayer;
-    public LayerMask ClimbableLayer => _climbableLayer; 
 
     [SerializeField] private Camera _playerCamera; // Assign in Inspector
     public Camera PlayerCamera => _playerCamera;
 
-    private WallDetector _wallDetector;
 
     public Coroutine StartStateCoroutine(IEnumerator coroutine)
     {
@@ -36,7 +31,6 @@ public class PlayerController : MonoBehaviour
         PlayerAnimator = GetComponent<Animator>();
         PlayerCollider = GetComponent<Collider>();
 
-        _wallDetector = GetComponent<WallDetector>();
     }
     void Start()
     {
@@ -47,8 +41,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         PlayerTransform = this.gameObject.transform;
-        PlayerWallHit = _wallDetector.DetectWall();
-        PlayerWallHeight = _wallDetector.DetectWallHeight();
         GroundCheck();
         currentState?.Update();
     }

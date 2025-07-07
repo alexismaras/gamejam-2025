@@ -86,23 +86,18 @@ public class IdleState : IState
     //       additionally, the jump animations root motion in y direction are baked into pose so jumping does nothing than looking like jumping
     void Jump()
     {
-        if (player.PlayerWallHit.collider == null)
+
+        if (player.PlayerAnimator.GetFloat(_speedParameterHash) <= 1)
         {
-            if (player.PlayerAnimator.GetFloat(_speedParameterHash) <= 1)
-            {
-                player.PlayerRigidbody.useGravity = false;
-                player.PlayerAnimator.Play("Idle Jump");
-            }
-            else 
-            {
-                player.PlayerRigidbody.useGravity = false;
-                player.PlayerAnimator.Play("Running Jump");
-            }
+            player.PlayerRigidbody.useGravity = false;
+            player.PlayerAnimator.Play("Idle Jump");
         }
-        else
+        else 
         {
-            player.ChangeState(new ClimbState(player));
+            player.PlayerRigidbody.useGravity = false;
+            player.PlayerAnimator.Play("Running Jump");
         }
+
     }
 
     // Gets normalized look Direction of Camera, so this Gameobject can rotate in this Direction.
