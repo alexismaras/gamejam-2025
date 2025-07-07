@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Camera _playerCamera; // Assign in Inspector
     public Camera PlayerCamera => _playerCamera;
 
+    [SerializeField] private float _jumpForce;
+
+    public float JumpForce => _jumpForce;
 
     public Coroutine StartStateCoroutine(IEnumerator coroutine)
     {

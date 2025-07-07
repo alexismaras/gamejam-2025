@@ -34,7 +34,7 @@ public class FightState : IState
     {
         _elapsedTimeSincePunch += Time.deltaTime;
 
-        if (_elapsedTimeSincePunch >= 3)
+        if (_elapsedTimeSincePunch >= 1)
         {
             player.ChangeState(new IdleState(player));
         }
