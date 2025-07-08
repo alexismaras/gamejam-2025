@@ -6385,9 +6385,25 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 3897837270927690816, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6670852848010623533, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
+      propertyPath: _jumpForce
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6670852848010623533, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
+      propertyPath: _jumpMaxHeight
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6670852848010623533, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
       propertyPath: _rotationSpeed
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6670852848010623533, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
+      propertyPath: _jumpMaxAirTime
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6670852848010623533, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
       propertyPath: _walingAcceleration

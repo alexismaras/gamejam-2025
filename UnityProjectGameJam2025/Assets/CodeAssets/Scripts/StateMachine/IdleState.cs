@@ -37,7 +37,7 @@ public class IdleState : IState
         
         ProcessDirectionalInput();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && player.IsGrounded)
         {
             player.ChangeState(new JumpState(player));
         }

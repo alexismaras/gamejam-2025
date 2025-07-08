@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         PlayerTransform = this.gameObject.transform;
-        // GroundCheck();
+        GroundCheck();
         currentState?.Update();
 
         ChargePunch();

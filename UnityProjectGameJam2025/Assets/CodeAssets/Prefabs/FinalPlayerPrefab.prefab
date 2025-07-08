@@ -2006,11 +2006,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCamera: {fileID: 6047834668001484910}
+<<<<<<< Updated upstream
   _rotationSpeed: 100
   _walingAcceleration: 0.005
   _jumpForce: 8.5
+=======
+  _rotationSpeed: 40
+  _walingAcceleration: 0.05
+  _jumpForce: 1000
+>>>>>>> Stashed changes
   _jumpMaxHeight: 2.5
-  _jumpMaxAirTime: 0.25
+  _jumpMaxAirTime: 0.5
   _maxPunchCharge: 1
   _regularPunchPoints: 1
   _chargedPunchPoints: 2

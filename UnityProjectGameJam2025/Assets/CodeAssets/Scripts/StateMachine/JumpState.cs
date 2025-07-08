@@ -9,7 +9,7 @@ public class JumpState : IState
 {
     private PlayerController player;
 
-    private float _elapsedTimeSinceJump;
+    // private float _elapsedTimeSinceJump;
     private float _airTime;
 
     private float _startHeight;
@@ -24,29 +24,38 @@ public class JumpState : IState
     public void Enter()
     {
         Debug.Log("JUMP STATE ENTERED");
-        _elapsedTimeSinceJump = 0;
+        // _elapsedTimeSinceJump = 0;
         _airTime = 0;
-        player.PlayerRigidbody.useGravity = false;
         _startHeight = player.PlayerRigidbody.position.y;
+        player.PlayerRigidbody.AddForce(Vector3.up * player.JumpForce, ForceMode.Impulse);
     }
 
     // Update is called once per frame
     public void Update()
     {
-        _elapsedTimeSinceJump += Time.deltaTime;
+        bool freezeJump = Input.GetKey(KeyCode.Space);
+        // _elapsedTimeSinceJump += Time.deltaTime;
         if (player.PlayerRigidbody.position.y >= _startHeight + player.JumpMaxHeight)
         {
-            _airTime += Time.deltaTime;
+            player.PlayerRigidbody.linearVelocity = Vector3.zero;
+            player.PlayerRigidbody.angularVelocity = Vector3.zero;
+            
+            if (freezeJump)
+            {
+                player.PlayerRigidbody.useGravity = false;
 
-            if (_airTime >= player.JumpMaxAirTime)
+                _airTime += Time.deltaTime;
+            }
+            else
             {
                 player.ChangeState(new IdleState(player));
             }
-            
+
         }
-        else
+        
+        if (_airTime >= player.JumpMaxAirTime)
         {
-            JumpUp();
+            player.ChangeState(new IdleState(player));
         }
         
 
