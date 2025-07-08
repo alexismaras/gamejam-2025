@@ -4,6 +4,8 @@ public class IceCubeUnit : MonoBehaviour
 {
     public static event Action<int> OnAssignPointsToPlayer;
     [SerializeField] private GameObject[] _fractures;
+    [SerializeField] private AudioSource _iceBreakAudio;
+    [SerializeField] private AudioSource _iceCubeDropAudio;
 
     public int CollectedPoints;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,11 +34,18 @@ public class IceCubeUnit : MonoBehaviour
         if (!arrayContainsFractures)
         {
             Destroy(gameObject);
+            
         }
+    }
+
+    public void PlayIceBreakSound()
+    {
+        _iceBreakAudio.Play();
     }
 
     void OnDestroy()
     {
+        _iceCubeDropAudio.Play();
         OnAssignPointsToPlayer?.Invoke(CollectedPoints);
     }
 }

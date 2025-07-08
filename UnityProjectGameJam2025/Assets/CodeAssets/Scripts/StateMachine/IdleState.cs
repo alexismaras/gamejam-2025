@@ -34,7 +34,7 @@ public class IdleState : IState
     // Update is called once per frame
     public void Update()
     {
-        
+        if (player.GroundCheck())
         ProcessDirectionalInput();
 
         if (Input.GetKeyDown(KeyCode.Space) && player.GroundCheck())

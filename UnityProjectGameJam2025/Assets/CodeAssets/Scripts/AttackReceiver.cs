@@ -109,6 +109,7 @@ public class AttackReceiver : MonoBehaviour
     // Remove eventListeners when this gameObject is destroyed... stackoverflow told me to do so..
     void OnDestroy()
     {
+        _iceCubeUnit.PlayIceBreakSound();
         _iceCubeUnit.CheckFractures(gameObject);
         AttackSource.OnAttackStart -= HandleAttackStart;
         AttackSource.OnAttackEnd -= HandleAttackEnd;

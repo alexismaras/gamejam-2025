@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit hit;
         Vector3 raycastStart = new Vector3 (transform.position.x, transform.position.y + 0.1f, transform.position.z);
-        if (Physics.Raycast(raycastStart, Vector3.down, out hit, 100f))
+        if (Physics.Raycast(raycastStart, Vector3.down, out hit, 1f))
         {
             Debug.DrawRay(raycastStart, Vector3.down * 100f, Color.green, 0.02f, false);
         }
