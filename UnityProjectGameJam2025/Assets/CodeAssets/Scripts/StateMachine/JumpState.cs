@@ -30,11 +30,11 @@ public class JumpState : IState
     {
         _elapsedTimeSinceJump += Time.deltaTime;
 
-        if (player.PlayerRigidbody.position.y >= 2f)
+        if (player.PlayerRigidbody.position.y >= player.JumpMaxHeight)
         {
             _airTime += Time.deltaTime;
 
-            if (_airTime >= 1f)
+            if (_airTime >= player.JumpMaxAirTime)
             {
                 player.ChangeState(new IdleState(player));
             }
@@ -50,7 +50,7 @@ public class JumpState : IState
 
     void JumpUp()
     {
-        player.PlayerRigidbody.MovePosition(player.PlayerRigidbody.position + new Vector3(0, 1, 0) * 10f * Time.deltaTime);
+        player.PlayerRigidbody.MovePosition(player.PlayerRigidbody.position + new Vector3(0, 1, 0) * player.JumpForce * Time.deltaTime);
         Debug.Log("JUMPING NOW");
     }
 
