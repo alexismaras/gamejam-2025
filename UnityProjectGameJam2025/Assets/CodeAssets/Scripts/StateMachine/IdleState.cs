@@ -7,7 +7,6 @@ using System;
 public class IdleState : IState
 {
     private PlayerController player;
-    private float _locomotionDampingParameter = 0.15f;
 
     private int _speedParameterHash;
     private int _directionParameterHash;
@@ -66,13 +65,13 @@ public class IdleState : IState
             GetLookDirection();
         }
 
-        player.PlayerAnimator.SetFloat(_speedParameterHash, speed, _locomotionDampingParameter, Time.deltaTime);
-        player.PlayerAnimator.SetFloat(_directionParameterHash, direction, _locomotionDampingParameter, Time.deltaTime);
+        player.PlayerAnimator.SetFloat(_speedParameterHash, speed, player.WalkingAcceleration, Time.deltaTime);
+        player.PlayerAnimator.SetFloat(_directionParameterHash, direction, player.WalkingAcceleration, Time.deltaTime);
 
         Vector3 crossLookDirection = Quaternion.Euler(0, 90, 0) * _lookDirection;
         Vector3 movementDirection = _lookDirection * verticalInput + crossLookDirection * horizontalInput;
 
-        Vector3 newDirection = Vector3.RotateTowards(player.PlayerTransform.forward, movementDirection, 20f* Time.deltaTime, 0.0f);
+        Vector3 newDirection = Vector3.RotateTowards(player.PlayerTransform.forward, movementDirection, player.RotationSpeed * Time.deltaTime, 0.0f);
         player.PlayerRigidbody.MoveRotation(Quaternion.LookRotation(newDirection));
 
     }
