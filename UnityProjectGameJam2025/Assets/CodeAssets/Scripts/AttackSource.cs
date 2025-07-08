@@ -9,8 +9,10 @@ public class AttackSource : MonoBehaviour
     [SerializeField] private GameObject _characterLeftFoot;
     [SerializeField] private GameObject _characterRightFoot;
     [SerializeField] private GameObject _characterHead;
-    public static event Action<Vector3, GameObject> OnAttackStart;
+    public static event Action<GameObject, int> OnAttackStart;
     public static event Action OnAttackEnd;
+
+    public int AttackChargeStrength;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -32,7 +34,7 @@ public class AttackSource : MonoBehaviour
         GameObject attackBodyPart = AttackTypeGameObject(attackType);
         Vector3 attackStartVector = attackBodyPart.transform.position;
         
-        OnAttackStart?.Invoke(attackStartVector, attackBodyPart);
+        OnAttackStart?.Invoke(attackBodyPart, AttackChargeStrength);
     }
 
     // Gets Invoked at end of Attack Animation

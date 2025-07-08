@@ -10,13 +10,13 @@ public class PlayerController : MonoBehaviour
     public Transform PlayerTransform { get; private set; }
     public Animator PlayerAnimator { get; private set; }
     public Collider PlayerCollider { get; private set; }
-
     public bool IsGrounded { get; private set; }
 
 
     [SerializeField] private Camera _playerCamera; // Assign in Inspector
     public Camera PlayerCamera => _playerCamera;
 
+    [Header("Jump Settings")]
     [SerializeField] private float _jumpForce;
     public float JumpForce => _jumpForce;
     [SerializeField] private float _jumpMaxHeight;
@@ -24,14 +24,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpMaxAirTime;
     public float JumpMaxAirTime => _jumpMaxAirTime;
 
+    [Header("Attack Settings")]
     private bool _chargingUpPunch;
     private float _punchChargeValue;
 
-    [SerializeField] float _maxPunchCharge;
+    [SerializeField] private float _maxPunchCharge;
+    [SerializeField] private int _regularPunchPoints = 1;
+    [SerializeField] private int _chargedPunchPoints = 2;
+    [SerializeField] private AttackSource _attackSource;
     [SerializeField] private Slider _punchChargeSlider;
     [SerializeField] private Image _punchChargeSliderFillImage;
     private Color _punchChargeSliderInitialFillColor;
     private Color _punchChargeSliderTargetFillColor;
+
+    private int _playerScore;
 
     public Coroutine StartStateCoroutine(IEnumerator coroutine)
     {
@@ -46,6 +52,8 @@ public class PlayerController : MonoBehaviour
         PlayerTransform = this.gameObject.transform;
         PlayerAnimator = GetComponent<Animator>();
         PlayerCollider = GetComponent<Collider>();
+        IceCubeUnit.OnAssignPointsToPlayer += HandleAssignPointsToPlayer;
+        _attackSource = GetComponent<AttackSource>();
 
     }
     void Start()
@@ -59,10 +67,12 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         PlayerTransform = this.gameObject.transform;
-        GroundCheck();
+        // GroundCheck();
         currentState?.Update();
 
         ChargePunch();
+
+        Debug.Log(_playerScore);
     }
 
     void ChargePunch()
@@ -82,6 +92,7 @@ public class PlayerController : MonoBehaviour
             _chargingUpPunch = false;
             _punchChargeSlider.gameObject.SetActive(false);
             ChangeState(new FightState(this));
+            _attackSource.AttackChargeStrength = _punchChargeValue >= _maxPunchCharge ? _chargedPunchPoints : _regularPunchPoints;
         }
 
         if (_chargingUpPunch)
@@ -98,6 +109,12 @@ public class PlayerController : MonoBehaviour
             // Gradual Green To Red while Charging up
             // _punchChargeSliderFillImage.color = Color.Lerp(_punchChargeSliderInitialFillColor, _punchChargeSliderTargetFillColor, _punchChargeValue / _maxPunchCharge);
         }
+    }
+
+    void HandleAssignPointsToPlayer(int points)
+    {
+        _playerScore += points;
+        // UPDATE HUD
     }
 
     public void ChangeState(IState newState)
@@ -118,12 +135,16 @@ public class PlayerController : MonoBehaviour
 
         if (hit.distance <= 0.01f)
         {
-            Debug.Log("yyy");
             IsGrounded = true;
         }
         else
         {
             IsGrounded = false;
         }
+    }
+
+    void Oestroy()
+    {
+        IceCubeUnit.OnAssignPointsToPlayer -= HandleAssignPointsToPlayer;        
     }
 }

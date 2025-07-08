@@ -13,6 +13,8 @@ public class AttackReceiver : MonoBehaviour
     private Animator _animator;
     private Rigidbody _rigidbody;
 
+    private IceCubeUnit _iceCubeUnit;
+
     private CinemachineImpulseSource _impulseSource;
     [SerializeField] private float _shakeIntensity = 1f;
     [SerializeField] private int _bloodSplatterEmissionCount = 1;
@@ -23,6 +25,7 @@ public class AttackReceiver : MonoBehaviour
     private bool _isAttacked;
     private Vector3 _attackStartVector;
     private GameObject _attackingBodyPart;
+    private int _attackChargeStrength;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,6 +33,7 @@ public class AttackReceiver : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         // _animator = GetComponent<Animator>();
+        _iceCubeUnit = GetComponentInParent<IceCubeUnit>();
         _hurtbox = GetComponent<Collider>();
         AttackSource.OnAttackStart += HandleAttackStart;
         AttackSource.OnAttackEnd += HandleAttackEnd;
@@ -47,47 +51,36 @@ public class AttackReceiver : MonoBehaviour
     }
 
     // Gets Invoked by AttackSource Script
-    void HandleAttackStart(Vector3 attackStartVector, GameObject attackingBodyPart)
+    void HandleAttackStart(GameObject attackingBodyPart, int attackChargeStrength)
     {
         _isAttacked = true;
-        _attackStartVector = attackStartVector;
         _attackingBodyPart = attackingBodyPart;
+        _attackChargeStrength = attackChargeStrength;
     }
 
     // Gets Invoked by AttackSource Script (if Attack did NOT hit) or by CheckAttackHit() (if Attack did hit)
     void HandleAttackEnd()
     {
         _isAttacked = false;
-        _attackStartVector = Vector3.zero;
         _attackingBodyPart = null;
     }
 
     // Checks if Attack Body Part of an Attack Source Script is colliding with one of the HurtBoxes, Plays hit Animation and applies an Impulse to the Rigidbody -> Gets Called in Update
     void CheckAttackHit()
     {
-        Vector3 attackDirection = _attackingBodyPart.transform.position - _attackStartVector;
-        Vector3 punchForceDirection = attackDirection.normalized;
-
         Collider attackingBodyPartCollider = _attackingBodyPart.GetComponent<Collider>();
 
         if (CollidersAreColliding(_hurtbox, attackingBodyPartCollider) && !LayerIsExcluded(_hurtbox, attackingBodyPartCollider))
         {
-            // _animator.Play("TopHit"+GetHitAnimation(punchForceDirection));
-
         }
-
-        // else if (CollidersAreColliding(_lowerHurtbox, attackingBodyPartCollider) && !LayerIsExcluded(_lowerHurtbox, attackingBodyPartCollider))
-        // {
-        //     // _animator.Play("MidHit"+GetHitAnimation(punchForceDirection));
-        // }
 
         else
         {
             return;
         }
-
-        // Vector3 punchForceVector = new Vector3(punchForceDirection.x, 0, punchForceDirection.z);
-        // _rigidbody.AddForce(punchForceVector * 150f, ForceMode.Impulse);
+        
+        _iceCubeUnit.CollectedPoints += _attackChargeStrength;
+        Debug.Log("ATTACK POINTS ASSIGNED TO CUBE: " + _attackChargeStrength);
         _impulseSource.GenerateImpulse(_shakeIntensity);
         // _particleSystem.transform.position = new Vector3(_particleSystem.transform.position.x, _attackingBodyPart.transform.position.y, _particleSystem.transform.position.z);
         // _particleSystem.Emit(_bloodSplatterEmissionCount);
@@ -116,6 +109,7 @@ public class AttackReceiver : MonoBehaviour
     // Remove eventListeners when this gameObject is destroyed... stackoverflow told me to do so..
     void OnDestroy()
     {
+        _iceCubeUnit.CheckFractures(gameObject);
         AttackSource.OnAttackStart -= HandleAttackStart;
         AttackSource.OnAttackEnd -= HandleAttackEnd;
     }
