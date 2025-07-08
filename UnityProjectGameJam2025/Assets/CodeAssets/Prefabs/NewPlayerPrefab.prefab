@@ -564,9 +564,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCamera: {fileID: 0}
-  _jumpForce: 20
+  _jumpForce: 8.5
   _jumpMaxHeight: 2.5
-  _jumpMaxAirTime: 1
+  _jumpMaxAirTime: 0.25
   _maxPunchCharge: 1
   _punchChargeSlider: {fileID: 0}
   _punchChargeSliderFillImage: {fileID: 0}

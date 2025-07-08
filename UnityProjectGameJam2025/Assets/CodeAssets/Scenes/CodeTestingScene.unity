@@ -7174,9 +7174,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3397883515642077633, guid: 095c5cf045e572c4294d443ba5774c9c, type: 3}
+      propertyPath: _jumpForce
+      value: 8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3397883515642077633, guid: 095c5cf045e572c4294d443ba5774c9c, type: 3}
       propertyPath: _playerCamera
       value: 
       objectReference: {fileID: 842249557}
+    - target: {fileID: 3397883515642077633, guid: 095c5cf045e572c4294d443ba5774c9c, type: 3}
+      propertyPath: _jumpMaxAirTime
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 3397883515642077633, guid: 095c5cf045e572c4294d443ba5774c9c, type: 3}
       propertyPath: _punchChargeSlider
       value: 
@@ -7202,6 +7210,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3014945216789999552, guid: e363cd4f1b5b1564f91f2ef54190b77b, type: 3}
+      propertyPath: Damping.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014945216789999552, guid: e363cd4f1b5b1564f91f2ef54190b77b, type: 3}
+      propertyPath: Damping.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3188864794621716382, guid: e363cd4f1b5b1564f91f2ef54190b77b, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
