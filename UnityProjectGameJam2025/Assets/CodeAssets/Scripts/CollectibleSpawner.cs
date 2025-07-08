@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 public class CollectibleSpawner : MonoBehaviour
 {
-    private GameObject _prefabCollectible;
+    [SerializeField] private GameObject _prefabCollectible;
     private GameObject _currentCollectible;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,8 +22,9 @@ public class CollectibleSpawner : MonoBehaviour
     {
         GameObject _instanceCollectible = Instantiate(_prefabCollectible);
         _instanceCollectible.transform.parent = gameObject.transform;
-        _instanceCollectible.transform.position = new Vector3(0, 0, 0);
+        _instanceCollectible.transform.position = transform.position;
         _currentCollectible = _instanceCollectible;
+        _instanceCollectible.SetActive(true);
 
         StartCoroutine(WaitForCollected());
 
@@ -34,6 +35,7 @@ public class CollectibleSpawner : MonoBehaviour
     {
         while (_currentCollectible != null)
         {
+            Debug.Log("Collectible is not null" +_currentCollectible != null);
             yield return null;
         }
 
