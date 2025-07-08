@@ -44,15 +44,17 @@ public class JumpState : IState
         // _elapsedTimeSinceJump += Time.deltaTime;
         if (player.PlayerRigidbody.position.y >= _startHeight + player.JumpMaxHeight)
         {
-            _hasReachedMaxHeight = true;
-            if (!_hasMadeGroundcheck)
-            {
-                player.AsyncGroundCheck();
-                _hasMadeGroundcheck = true;
-            }
+            // _hasReachedMaxHeight = true;
+            // if (!_hasMadeGroundcheck)
+            // {
+            //     player.AsyncGroundCheck();
+            //     _hasMadeGroundcheck = true;
+            // }
             player.PlayerRigidbody.linearVelocity = Vector3.zero;
             player.PlayerRigidbody.angularVelocity = Vector3.zero;
-            player.PlayerRigidbody.AddForce(Vector3.down * player.JumpForce *0.75f, ForceMode.Impulse);
+            player.ChangeState(new IdleState(player));
+           
+            // player.PlayerRigidbody.AddForce(Vector3.down * player.JumpForce *0.75f, ForceMode.Impulse);
 
             // if (freezeJump && _airTime < player.JumpMaxAirTime)
             // {

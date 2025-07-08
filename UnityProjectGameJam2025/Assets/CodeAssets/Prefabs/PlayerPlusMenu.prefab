@@ -6932,6 +6932,7 @@ MonoBehaviour:
   _punchChargeSlider: {fileID: 3752738096271830576}
   _scoreText: {fileID: 1613813890215006163}
   _punchChargeSliderFillImage: {fileID: 3922196966295949759}
+  _speedPowerUpTime: 10
 --- !u!95 &5606506912482939318
 Animator:
   serializedVersion: 7
