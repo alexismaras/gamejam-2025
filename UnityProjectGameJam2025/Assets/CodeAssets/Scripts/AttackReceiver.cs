@@ -4,12 +4,12 @@ using UnityEngine;
 using System;
 using Unity.Cinemachine;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Animator))]
+// [RequireComponent(typeof(Rigidbody))]
+// [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CinemachineImpulseSource))]
 public class AttackReceiver : MonoBehaviour
 {
-    [SerializeField] ParticleSystem _particleSystem;
+    // [SerializeField] ParticleSystem _particleSystem;
     private Animator _animator;
     private Rigidbody _rigidbody;
 
@@ -17,8 +17,8 @@ public class AttackReceiver : MonoBehaviour
     [SerializeField] private float _shakeIntensity = 1f;
     [SerializeField] private int _bloodSplatterEmissionCount = 1;
 
-    [SerializeField] private Collider _upperHurtbox;
-    [SerializeField] private Collider _lowerHurtbox;
+    [SerializeField] private Collider _hurtbox;
+    // [SerializeField] private Collider _lowerHurtbox;
 
     private bool _isAttacked;
     private Vector3 _attackStartVector;
@@ -29,7 +29,8 @@ public class AttackReceiver : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
+        // _animator = GetComponent<Animator>();
+        _hurtbox = GetComponent<Collider>();
         AttackSource.OnAttackStart += HandleAttackStart;
         AttackSource.OnAttackEnd += HandleAttackEnd;
         _impulseSource = GetComponent<CinemachineImpulseSource>();
@@ -69,59 +70,33 @@ public class AttackReceiver : MonoBehaviour
 
         Collider attackingBodyPartCollider = _attackingBodyPart.GetComponent<Collider>();
 
-        if (CollidersAreColliding(_upperHurtbox, attackingBodyPartCollider) && !LayerIsExcluded(_upperHurtbox, attackingBodyPartCollider))
+        if (CollidersAreColliding(_hurtbox, attackingBodyPartCollider) && !LayerIsExcluded(_hurtbox, attackingBodyPartCollider))
         {
-            _animator.Play("TopHit"+GetHitAnimation(punchForceDirection));
+            // _animator.Play("TopHit"+GetHitAnimation(punchForceDirection));
 
         }
 
-        else if (CollidersAreColliding(_lowerHurtbox, attackingBodyPartCollider) && !LayerIsExcluded(_lowerHurtbox, attackingBodyPartCollider))
-        {
-            _animator.Play("MidHit"+GetHitAnimation(punchForceDirection));
-        }
+        // else if (CollidersAreColliding(_lowerHurtbox, attackingBodyPartCollider) && !LayerIsExcluded(_lowerHurtbox, attackingBodyPartCollider))
+        // {
+        //     // _animator.Play("MidHit"+GetHitAnimation(punchForceDirection));
+        // }
 
-        else 
+        else
         {
             return;
         }
 
-        Vector3 punchForceVector = new Vector3(punchForceDirection.x, 0, punchForceDirection.z);
-        _rigidbody.AddForce(punchForceVector * 150f, ForceMode.Impulse);
+        // Vector3 punchForceVector = new Vector3(punchForceDirection.x, 0, punchForceDirection.z);
+        // _rigidbody.AddForce(punchForceVector * 150f, ForceMode.Impulse);
         _impulseSource.GenerateImpulse(_shakeIntensity);
-        _particleSystem.transform.position = new Vector3(_particleSystem.transform.position.x, _attackingBodyPart.transform.position.y, _particleSystem.transform.position.z);
-        _particleSystem.Emit(_bloodSplatterEmissionCount);
+        // _particleSystem.transform.position = new Vector3(_particleSystem.transform.position.x, _attackingBodyPart.transform.position.y, _particleSystem.transform.position.z);
+        // _particleSystem.Emit(_bloodSplatterEmissionCount);
 
         HandleAttackEnd();
+
+        Destroy(gameObject);
     }
 
-
-    // Detects what hit Animation to play, based on the Vector of the punch animation Tweak point (bodyPart that hits). 
-    // Note: this should probably be switched to a determination based on hit position on the target!
-    string GetHitAnimation(Vector3 hitDirection) 
-    {   
-        string animationString = "";
-        string animationStringDirection = "";
-        // Get local direction vectors
-        Vector3 right = transform.right;
-        Vector3 left = transform.right * -1f; // Equivalent to transform.left
-
-        
-        // Calculate dot products
-        float dotRight = Vector3.Dot(hitDirection, right);
-        float dotLeft = Vector3.Dot(hitDirection, left);
-
-        if (dotRight > dotLeft) 
-        {
-            animationStringDirection += "RL";
-        }
-        else
-        {
-            animationStringDirection += "LR";
-        }
-
-        Debug.Log(animationStringDirection+"1");
-        return animationStringDirection+"1";
-    }
 
     // Checks if listener Collider has source Collider's Layer explicitly excluded
     bool LayerIsExcluded(Collider listener, Collider source)

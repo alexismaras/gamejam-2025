@@ -18,57 +18,60 @@ public class FightState : IState
     {
         this.player = player;
     }
-    
+
     public void Enter()
     {
-        _speedParameterHash = Animator.StringToHash("speed");
-        _directionParameterHash = Animator.StringToHash("direction");
+        // _speedParameterHash = Animator.StringToHash("speed");
+        // _directionParameterHash = Animator.StringToHash("direction");
 
-        player.PlayerAnimator.SetBool("isIdleState", false);
-        player.PlayerAnimator.SetBool("isFightingState", true);
-        player.PlayerAnimator.SetBool("isClimbingState", false);
+        // player.PlayerAnimator.SetBool("isIdleState", false);
+        // player.PlayerAnimator.SetBool("isFightingState", true);
+        // player.PlayerAnimator.SetBool("isClimbingState", false);
+
+        LeftPunch();
+        
+        player.ChangeState(new IdleState(player));
+        
     }
 
     // Update is called once per frame
     public void Update()
     {
-        _elapsedTimeSincePunch += Time.deltaTime;
 
-        if (_elapsedTimeSincePunch >= 1)
-        {
-            player.ChangeState(new IdleState(player));
-        }
+        // ProcessDirectionalInput();
 
-        ProcessDirectionalInput();
+        // if (player.PlayerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Punch Left"))
+        // {
+        //     player.ChangeState(new IdleState(player));
+        // }
+        // if (Input.GetKeyDown(KeyCode.Mouse0))
+        // {
+        //     LeftPunch();
+        //     player.ChangeState(new IdleState(player));
+        // }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            LeftPunch();
-            _elapsedTimeSincePunch = 0;
-        }
+            // if (Input.GetKeyDown(KeyCode.Mouse1))
+            // {
+            //     RightPunch();
+            //     player.ChangeState(new IdleState(player));
+            // }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            RightPunch();
-            _elapsedTimeSincePunch = 0;
-        }
+            // if (Input.GetKeyDown(KeyCode.Mouse2))
+            // {
+            //     Headbutt();
+            //     player.ChangeState(new IdleState(player));
+            // }
 
-        if (Input.GetKeyDown(KeyCode.Mouse2))
-        {
-            Headbutt();
-            _elapsedTimeSincePunch = 0;
-        }
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            LeftKick();
-            _elapsedTimeSincePunch = 0;
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            RightKick();
-            _elapsedTimeSincePunch = 0;
-        }
+            // if (Input.GetKeyDown(KeyCode.X))
+            // {
+            //     LeftKick();
+            //     player.ChangeState(new IdleState(player));
+            // }
+            // if (Input.GetKeyDown(KeyCode.C))
+            // {
+            //     RightKick();
+            //     player.ChangeState(new IdleState(player));
+            // }
 
     }
 
