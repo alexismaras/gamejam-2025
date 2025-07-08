@@ -564,7 +564,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCamera: {fileID: 0}
-  _jumpForce: 0
+  _jumpForce: 20
+  _jumpMaxHeight: 2.5
+  _jumpMaxAirTime: 1
+  _maxPunchCharge: 1
+  _punchChargeSlider: {fileID: 0}
+  _punchChargeSliderFillImage: {fileID: 0}
 --- !u!95 &5973373606642088414
 Animator:
   serializedVersion: 7
