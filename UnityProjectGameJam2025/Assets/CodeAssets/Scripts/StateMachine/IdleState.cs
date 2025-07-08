@@ -67,7 +67,7 @@ public class IdleState : IState
 
         _currentSpeed = speed;
 
-        player.PlayerAnimator.SetFloat(_speedParameterHash, speed, player.WalkingAcceleration, Time.deltaTime);
+        player.PlayerAnimator.SetFloat(_speedParameterHash, (player.SpeedPowerUp && speed != 0) ? speed + 1 : speed, player.WalkingAcceleration, Time.deltaTime);
         player.PlayerAnimator.SetFloat(_directionParameterHash, direction, player.WalkingAcceleration, Time.deltaTime);
 
         Vector3 crossLookDirection = Quaternion.Euler(0, 90, 0) * _lookDirection;

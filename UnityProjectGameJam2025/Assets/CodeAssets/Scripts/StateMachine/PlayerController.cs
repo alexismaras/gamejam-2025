@@ -46,6 +46,16 @@ public class PlayerController : MonoBehaviour
     private Color _punchChargeSliderInitialFillColor;
     private Color _punchChargeSliderTargetFillColor;
 
+    [Header("Speed Power Up")]
+    [SerializeField] private float _speedPowerUpTime;
+
+    private bool _speedPowerUp;
+    public bool SpeedPowerUp => _speedPowerUp;
+
+    
+    private float _elapsedSpeedPowerUpTime;
+
+
     private int _playerScore;
 
     public Coroutine StartStateCoroutine(IEnumerator coroutine)
@@ -82,6 +92,8 @@ public class PlayerController : MonoBehaviour
         currentState?.Update();
 
         ChargePunch();
+
+        WhileSpeedPowerup();
 
         Debug.Log(_playerScore);
     }
@@ -188,7 +200,32 @@ public class PlayerController : MonoBehaviour
         ChangeState(new IdleState(this));
     }
 
-    void Oestroy()
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("EnergyDoseItem"))
+        {
+            Destroy(other.gameObject);
+            _speedPowerUp = true;
+            _elapsedSpeedPowerUpTime = 0;
+
+        }
+    }
+
+    void WhileSpeedPowerup()
+    {
+        if (_speedPowerUp)
+        {
+
+            _elapsedSpeedPowerUpTime += Time.deltaTime;
+
+            if (_elapsedSpeedPowerUpTime >= _speedPowerUpTime)
+            {
+                _speedPowerUp = false;
+            }
+        }
+    }
+
+    void OnDestroy()
     {
         IceCubeUnit.OnAssignPointsToPlayer -= HandleAssignPointsToPlayer;        
     }

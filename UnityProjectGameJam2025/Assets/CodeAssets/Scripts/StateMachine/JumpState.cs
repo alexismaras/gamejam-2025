@@ -52,27 +52,28 @@ public class JumpState : IState
             }
             player.PlayerRigidbody.linearVelocity = Vector3.zero;
             player.PlayerRigidbody.angularVelocity = Vector3.zero;
+            player.PlayerRigidbody.AddForce(Vector3.down * player.JumpForce *0.75f, ForceMode.Impulse);
 
-            if (freezeJump && _airTime < player.JumpMaxAirTime)
-            {
-                Debug.Log("C");
-                _airTime += Time.deltaTime;
-                player.PlayerRigidbody.useGravity = false;
+            // if (freezeJump && _airTime < player.JumpMaxAirTime)
+            // {
+            //     Debug.Log("C");
+            //     _airTime += Time.deltaTime;
+            //     player.PlayerRigidbody.useGravity = false;
 
 
 
-            }
-            else
-            {
-                player.PlayerRigidbody.useGravity = true;
-                if (!_addedDownForce)
-                {
-                    player.PlayerRigidbody.AddForce(Vector3.down * player.JumpForce *0.75f, ForceMode.Impulse);
-                    _addedDownForce = true;
+            // }
+            // else
+            // {
+            //     player.PlayerRigidbody.useGravity = true;
+            //     if (!_addedDownForce)
+            //     {
+            //         player.PlayerRigidbody.AddForce(Vector3.down * player.JumpForce *0.75f, ForceMode.Impulse);
+            //         _addedDownForce = true;
 
-                }
+            //     }
 
-            }
+            // }
 
         }
 
