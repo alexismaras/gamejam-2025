@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/CodeAssets/UI/UiScenes/MainMenu.unity
     guid: 171e8cdc8b9b3c4478467b6d323acce5
   - enabled: 1
-    path: Assets/CodeAssets/Scenes/CodeTestingScene.unity
-    guid: b55d240830fa92a48865d0319d755e5e
+    path: Assets/LevelDesign/Scenes/BarLevel_Test.unity
+    guid: a3631b83ce0a8c84c85091f51ee8a1a1
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
