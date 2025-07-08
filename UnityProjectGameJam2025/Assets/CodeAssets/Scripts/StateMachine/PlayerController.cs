@@ -16,6 +16,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Camera _playerCamera; // Assign in Inspector
     public Camera PlayerCamera => _playerCamera;
 
+    [Header("Movement Settings")]
+    [SerializeField] private float _rotationSpeed;
+    public float RotationSpeed => _rotationSpeed;
+    [SerializeField] private float _walingAcceleration;
+    public float WalkingAcceleration => _walingAcceleration;
+
     [Header("Jump Settings")]
     [SerializeField] private float _jumpForce;
     public float JumpForce => _jumpForce;
