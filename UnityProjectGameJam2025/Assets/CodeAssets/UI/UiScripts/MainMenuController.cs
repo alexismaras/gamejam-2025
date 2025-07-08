@@ -6,10 +6,11 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private GameObject _creditsCanvas;
     [SerializeField] private GameObject _menuCanvas;
     [SerializeField] private GameObject _optionsCanvas;
+    [SerializeField] private LoadingScreenController _sceneLoader;
 
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        _sceneLoader.LoadScene(1);
     }
 
     public void OpenOptions()

@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameOverController : MonoBehaviour
 {
     [SerializeField] private GameObject _gameOverMenuCanvas;
+    [SerializeField] private LoadingScreenController _sceneLoader;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,13 +28,13 @@ public class GameOverController : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        _sceneLoader.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1;
     }
 
     public void Quit()
     {
-        SceneManager.LoadScene(0);
+        _sceneLoader.LoadScene(0);
         Time.timeScale = 1;
     }
 
