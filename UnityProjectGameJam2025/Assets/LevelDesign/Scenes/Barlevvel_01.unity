@@ -956,18 +956,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FinalPlayerPrefab
       objectReference: {fileID: 0}
-    - target: {fileID: 2565896447166309634, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2565896447166309634, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.10141
-      objectReference: {fileID: 0}
-    - target: {fileID: 2565896447166309634, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -1.9074326
-      objectReference: {fileID: 0}
     - target: {fileID: 3673477865805265640, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.956856
@@ -1007,14 +995,6 @@ PrefabInstance:
     - target: {fileID: 3673477865805265640, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6670852848010623533, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
-      propertyPath: _rotationSpeed
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 6670852848010623533, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
-      propertyPath: _walingAcceleration
-      value: 0.005
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
