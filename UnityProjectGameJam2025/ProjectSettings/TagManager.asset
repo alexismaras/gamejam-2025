@@ -8,6 +8,7 @@ TagManager:
   - FriendlyNPC
   - GeldItem
   - EnergyDoseItem
+  - Deadzone
   layers:
   - Default
   - TransparentFX

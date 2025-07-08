@@ -1,0 +1,15 @@
+{
+    "AutoNames": true,
+    "SubFolders": true,
+    "OverwriteConfig": false,
+    "LoadAllShaders": false,
+    "CustomOutputPath": "/JMO Assets/Toony Colors Pro/Shaders Generated/",
+    "LastImplementationExportImportPath": "C:/Users/kasikci21714/Documents/GitHub/gamejam-2025/UnityProjectGameJam2025/Assets",
+    "OpenedFoldouts": [],
+    "UseCustomFont": false,
+    "CustomFont": {
+        "instanceID": 0
+    },
+    "CustomFontInitialized": false,
+    "Upgrade_Hybrid1toHybrid2_Done": true
+}
