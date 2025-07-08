@@ -1971,7 +1971,7 @@ GameObject:
   - component: {fileID: 1829451327440116326}
   m_Layer: 3
   m_Name: NewPlayerPrefab
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2012,7 +2012,7 @@ MonoBehaviour:
   _walingAcceleration: 0.005
   _jumpForce: 1000
   _jumpMaxHeight: 2.5
-  _jumpMaxAirTime: 10
+  _jumpMaxAirTime: 1
   _maxPunchCharge: 1
   _regularPunchPoints: 1
   _chargedPunchPoints: 2

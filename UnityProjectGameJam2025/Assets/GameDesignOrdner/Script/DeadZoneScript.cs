@@ -10,6 +10,7 @@ public class DeadZoneScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            Debug.Log("DeadZone Entered!");
             OnDeadZoneEntered?.Invoke();
         }
     }
