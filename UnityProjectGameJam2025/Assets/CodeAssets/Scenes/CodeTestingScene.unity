@@ -519,10 +519,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPlusMenu
       objectReference: {fileID: 0}
-    - target: {fileID: 872607560300434775, guid: 89659167512e25e4f88c0ab91cff601a, type: 3}
-      propertyPath: _handAttackTime
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 2759938491390870578, guid: 89659167512e25e4f88c0ab91cff601a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.79
