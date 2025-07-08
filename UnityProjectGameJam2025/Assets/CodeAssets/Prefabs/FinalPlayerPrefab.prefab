@@ -2006,10 +2006,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCamera: {fileID: 6047834668001484910}
-  _jumpForce: 8.5
+  _rotationSpeed: 100
+  _walingAcceleration: 0.005
+  _jumpForce: 1000
   _jumpMaxHeight: 2.5
   _jumpMaxAirTime: 0.25
   _maxPunchCharge: 1
+  _regularPunchPoints: 1
+  _chargedPunchPoints: 2
+  _attackSource: {fileID: 0}
   _punchChargeSlider: {fileID: 5800145381969267183}
   _punchChargeSliderFillImage: {fileID: 4596285691105901198}
 --- !u!95 &2975948116513793166
@@ -2166,6 +2171,7 @@ MonoBehaviour:
   _characterLeftFoot: {fileID: 1079807690055158342}
   _characterRightFoot: {fileID: 4805548024579400997}
   _characterHead: {fileID: 5429731703439746583}
+  AttackChargeStrength: 0
 --- !u!1 &4456151166652999100
 GameObject:
   m_ObjectHideFlags: 0
