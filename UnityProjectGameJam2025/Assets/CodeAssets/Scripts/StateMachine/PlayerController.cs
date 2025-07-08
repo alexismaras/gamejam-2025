@@ -137,6 +137,12 @@ public class PlayerController : MonoBehaviour
 
     void HandleDeadZoneEntered()
     {
+        KillPlayer();
+
+    }
+
+    public void KillPlayer()
+    {
         _gameOverController.GameOver();
     }
 
