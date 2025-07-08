@@ -570,7 +570,7 @@ Transform:
   m_GameObject: {fileID: 1243763265145064712}
   serializedVersion: 2
   m_LocalRotation: {x: 0.1521234, y: -0, z: -0, w: 0.98836154}
-  m_LocalPosition: {x: 0, y: 2.1014116, z: -1.9074339}
+  m_LocalPosition: {x: -6.956856, y: 39.064384, z: -45.05872}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2006,10 +2006,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCamera: {fileID: 6047834668001484910}
+  _rotationSpeed: 100
+  _walingAcceleration: 0.005
   _jumpForce: 8.5
   _jumpMaxHeight: 2.5
   _jumpMaxAirTime: 0.25
   _maxPunchCharge: 1
+  _regularPunchPoints: 1
+  _chargedPunchPoints: 2
+  _attackSource: {fileID: 0}
   _punchChargeSlider: {fileID: 5800145381969267183}
   _punchChargeSliderFillImage: {fileID: 4596285691105901198}
 --- !u!95 &2975948116513793166
@@ -2166,6 +2171,7 @@ MonoBehaviour:
   _characterLeftFoot: {fileID: 1079807690055158342}
   _characterRightFoot: {fileID: 4805548024579400997}
   _characterHead: {fileID: 5429731703439746583}
+  AttackChargeStrength: 0
 --- !u!1 &4456151166652999100
 GameObject:
   m_ObjectHideFlags: 0
