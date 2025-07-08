@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 public class PlayerController : MonoBehaviour
 {
     private IState currentState;
@@ -10,11 +11,12 @@ public class PlayerController : MonoBehaviour
     public Transform PlayerTransform { get; private set; }
     public Animator PlayerAnimator { get; private set; }
     public Collider PlayerCollider { get; private set; }
-    public bool IsGrounded { get; private set; }
 
 
     [SerializeField] private Camera _playerCamera; // Assign in Inspector
     public Camera PlayerCamera => _playerCamera;
+
+    [SerializeField] private GameOverController _gameOverController;
 
     [Header("Movement Settings")]
     [SerializeField] private float _rotationSpeed;
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int _chargedPunchPoints = 2;
     [SerializeField] private AttackSource _attackSource;
     [SerializeField] private Slider _punchChargeSlider;
+    [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private Image _punchChargeSliderFillImage;
     private Color _punchChargeSliderInitialFillColor;
     private Color _punchChargeSliderTargetFillColor;
@@ -59,6 +62,7 @@ public class PlayerController : MonoBehaviour
         PlayerAnimator = GetComponent<Animator>();
         PlayerCollider = GetComponent<Collider>();
         IceCubeUnit.OnAssignPointsToPlayer += HandleAssignPointsToPlayer;
+        DeadZoneScript.OnDeadZoneEntered += HandleDeadZoneEntered;
         _attackSource = GetComponent<AttackSource>();
 
     }
@@ -67,6 +71,7 @@ public class PlayerController : MonoBehaviour
         ChangeState(new IdleState(this));
         _punchChargeSliderInitialFillColor = _punchChargeSliderFillImage.color;
         _punchChargeSliderTargetFillColor = Color.red;
+        _scoreText.text = "0";
     }
 
     // Update is called once per frame
@@ -90,13 +95,15 @@ public class PlayerController : MonoBehaviour
             _punchChargeSlider.value = 0;
             _punchChargeSlider.maxValue = _maxPunchCharge;
             _punchChargeSliderFillImage.color = _punchChargeSliderInitialFillColor;
-            _punchChargeSlider.gameObject.SetActive(true);
+            // _punchChargeSlider.gameObject.SetActive(true);
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse0) && currentState is not FightState)
         {
             _chargingUpPunch = false;
-            _punchChargeSlider.gameObject.SetActive(false);
+            _punchChargeValue = 0;
+            _punchChargeSlider.value = 0;
+            // _punchChargeSlider.gameObject.SetActive(false);
             ChangeState(new FightState(this));
             _attackSource.AttackChargeStrength = _punchChargeValue >= _maxPunchCharge ? _chargedPunchPoints : _regularPunchPoints;
         }
@@ -115,12 +122,22 @@ public class PlayerController : MonoBehaviour
             // Gradual Green To Red while Charging up
             // _punchChargeSliderFillImage.color = Color.Lerp(_punchChargeSliderInitialFillColor, _punchChargeSliderTargetFillColor, _punchChargeValue / _maxPunchCharge);
         }
+
+        else
+        {
+            _punchChargeSliderFillImage.color = _punchChargeSliderInitialFillColor;
+        }
     }
 
     void HandleAssignPointsToPlayer(int points)
     {
         _playerScore += points;
-        // UPDATE HUD
+        _scoreText.text = _playerScore.ToString();
+    }
+
+    void HandleDeadZoneEntered()
+    {
+        _gameOverController.GameOver();
     }
 
     public void ChangeState(IState newState)
@@ -130,7 +147,7 @@ public class PlayerController : MonoBehaviour
         currentState.Enter(); // Initialize new state
     }
 
-    void GroundCheck()
+    public bool GroundCheck()
     {
         RaycastHit hit;
         Vector3 raycastStart = transform.position;
@@ -139,14 +156,30 @@ public class PlayerController : MonoBehaviour
             Debug.DrawRay(raycastStart, Vector3.down * 100f, Color.green, 0.02f, false);
         }
 
-        if (hit.distance <= 0.01f)
+        if (hit.distance <= 0.2f)
         {
-            IsGrounded = true;
+            return true;
         }
         else
         {
-            IsGrounded = false;
+            return false;
         }
+    }
+
+    public void AsyncGroundCheck()
+    {
+        StartCoroutine(AwaitGrounded());
+    }
+
+    IEnumerator AwaitGrounded()
+    {
+        while (!GroundCheck())
+        {
+            yield return null;
+        }
+        Debug.Log("IsGroundedAgain");
+
+        ChangeState(new IdleState(this));
     }
 
     void Oestroy()

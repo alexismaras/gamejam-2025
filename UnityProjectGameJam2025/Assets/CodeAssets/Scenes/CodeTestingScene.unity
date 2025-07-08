@@ -181,6 +181,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7951944858365153400, guid: 6a0d4baa1edaa3e4ca87014f5864f16a, type: 3}
   m_PrefabInstance: {fileID: 4708783662912122972}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &242433429 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6494807354666776688, guid: 453d8a561435d4743b0deb7eb7ca3f78, type: 3}
+  m_PrefabInstance: {fileID: 9486131}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6f7f3e6cc6186e4cb10b143faa5f318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &314891074
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,6 +537,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FinalPlayerPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 2229721925566384557, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3673477865805265640, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.055637
@@ -566,6 +581,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6670852848010623533, guid: 5a9404502de04e24f81fc55596a5777a, type: 3}
+      propertyPath: _gameOverController
+      value: 
+      objectReference: {fileID: 242433429}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

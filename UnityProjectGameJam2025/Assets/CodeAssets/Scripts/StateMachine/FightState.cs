@@ -29,8 +29,8 @@ public class FightState : IState
         // player.PlayerAnimator.SetBool("isClimbingState", false);
 
         LeftPunch();
-        
-        player.ChangeState(new IdleState(player));
+
+        player.AsyncGroundCheck();
         
     }
 

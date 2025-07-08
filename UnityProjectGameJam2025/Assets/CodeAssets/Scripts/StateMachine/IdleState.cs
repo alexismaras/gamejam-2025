@@ -10,6 +10,7 @@ public class IdleState : IState
 
     private int _speedParameterHash;
     private int _directionParameterHash;
+    private float _currentSpeed;
     private Vector3 _lookDirection;
 
     
@@ -28,7 +29,6 @@ public class IdleState : IState
         player.PlayerAnimator.SetBool("isFightingState", false);
         player.PlayerAnimator.SetBool("isClimbingState", false);
 
-        player.PlayerRigidbody.useGravity = true;
     }
 
     // Update is called once per frame
@@ -37,9 +37,9 @@ public class IdleState : IState
         
         ProcessDirectionalInput();
 
-        if (Input.GetKeyDown(KeyCode.Space) && player.IsGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && player.GroundCheck())
         {
-            player.ChangeState(new JumpState(player));
+            player.ChangeState(new JumpState(player, _currentSpeed));
         }
         
     }
@@ -64,6 +64,8 @@ public class IdleState : IState
         {
             GetLookDirection();
         }
+
+        _currentSpeed = speed;
 
         player.PlayerAnimator.SetFloat(_speedParameterHash, speed, player.WalkingAcceleration, Time.deltaTime);
         player.PlayerAnimator.SetFloat(_directionParameterHash, direction, player.WalkingAcceleration, Time.deltaTime);
@@ -93,6 +95,8 @@ public class IdleState : IState
     // Removing eventListeners
     public void Exit()
     {
+        player.PlayerAnimator.SetFloat(_speedParameterHash, 0, player.WalkingAcceleration, Time.deltaTime);
+        player.PlayerAnimator.SetFloat(_directionParameterHash, 0, player.WalkingAcceleration, Time.deltaTime);
     }
 
 }
