@@ -8851,6 +8851,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8385367460193513158, guid: d7cd534742b3976418360fd12f69032b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8746000942548513436, guid: d7cd534742b3976418360fd12f69032b, type: 3}
       propertyPath: m_Name
       value: IceCubeSpawner
