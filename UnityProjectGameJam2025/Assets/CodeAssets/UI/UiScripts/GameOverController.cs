@@ -29,13 +29,11 @@ public class GameOverController : MonoBehaviour
     public void Restart()
     {
         _sceneLoader.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Time.timeScale = 1;
     }
 
     public void Quit()
     {
         _sceneLoader.LoadScene(0);
-        Time.timeScale = 1;
     }
 
 }

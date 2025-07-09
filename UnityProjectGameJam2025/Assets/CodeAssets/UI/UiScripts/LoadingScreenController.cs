@@ -28,5 +28,10 @@ public class LoadingScreenController : MonoBehaviour
 
             yield return null;
         }
+
+        if (Time.timeScale != 1)
+        {
+            Time.timeScale = 1;
+        }
     }
 }

@@ -1,10 +1,9 @@
 using UnityEngine;
+using System;
 
 public class HandEnemyController : MonoBehaviour
 {
-    public enum HandState { Checking, Attacking, }
-    public HandState CurrentGameState;
-
+    public static event Action OnHandSmash;
     [SerializeField] private GameObject _visualHand;
 
     [SerializeField] private float _handAttackTime;
@@ -12,10 +11,10 @@ public class HandEnemyController : MonoBehaviour
     [SerializeField] private float _playerLocationCheckThreshold;
 
     private float _initialPlayerPositionX;
-    private float _initialPlayerPositionY;
+    private float _initialPlayerPositionZ;
 
     private float _currentPlayerPositionX;
-    private float _currentPlayerPositionY;
+    private float _currentPlayerPositionZ;
 
     private float _elapsedTime;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,34 +22,24 @@ public class HandEnemyController : MonoBehaviour
     {
         _visualHand.SetActive(false);
         _initialPlayerPositionX = _playerController.PlayerRigidbody.position.x;
-        _initialPlayerPositionY = _playerController.PlayerRigidbody.position.y;
+        _initialPlayerPositionZ = _playerController.PlayerRigidbody.position.z;
 
         _currentPlayerPositionX = _initialPlayerPositionX;
-        _currentPlayerPositionY = _initialPlayerPositionY;
+        _currentPlayerPositionZ = _initialPlayerPositionZ;
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (CurrentGameState)
-        {
-            case HandState.Checking:
-                HandChecking();
-                break;
-
-
-            case HandState.Attacking:
-
-                break;
-        }
+        HandChecking();
     }
 
     void HandChecking()
     {
         _currentPlayerPositionX = _playerController.PlayerRigidbody.position.x;
-        _currentPlayerPositionY = _playerController.PlayerRigidbody.position.y;
+        _currentPlayerPositionZ = _playerController.PlayerRigidbody.position.z;
 
-        if (Mathf.Abs(_currentPlayerPositionX - _initialPlayerPositionX) <= _playerLocationCheckThreshold && Mathf.Abs(_currentPlayerPositionY - _initialPlayerPositionY) <= _playerLocationCheckThreshold)
+        if (Mathf.Abs(_currentPlayerPositionX - _initialPlayerPositionX) <= _playerLocationCheckThreshold && Mathf.Abs(_currentPlayerPositionZ - _initialPlayerPositionZ) <= _playerLocationCheckThreshold)
         {
             _elapsedTime += Time.deltaTime;
         }
@@ -59,18 +48,18 @@ public class HandEnemyController : MonoBehaviour
             _elapsedTime = 0;
             _visualHand.SetActive(false);
             _initialPlayerPositionX = _playerController.PlayerRigidbody.position.x;
-            _initialPlayerPositionY = _playerController.PlayerRigidbody.position.y;
+            _initialPlayerPositionZ = _playerController.PlayerRigidbody.position.z;
         }
 
         if (_elapsedTime >= _handAttackTime * 0.5f)
         {
             _visualHand.SetActive(true);
-            transform.position = new Vector3(_initialPlayerPositionX, _initialPlayerPositionY, _playerController.PlayerRigidbody.position.z);
+            transform.position = new Vector3(_initialPlayerPositionX,  _playerController.PlayerRigidbody.position.y, _initialPlayerPositionZ);
         }
 
         if (_elapsedTime >= _handAttackTime)
         {
-            _playerController.KillPlayer();
+            OnHandSmash?.Invoke();
         }
 
 
