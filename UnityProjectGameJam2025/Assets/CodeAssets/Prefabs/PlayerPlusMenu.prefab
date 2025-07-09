@@ -7912,10 +7912,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCamera: {fileID: 4925429796737483811}
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
   _gameOverController: {fileID: 6761052714420799166}
   _rotationSpeed: 100
   _walingAcceleration: 0.005
-  _jumpForce: 1000
+  _jumpForce: 650
   _jumpMaxHeight: 2.5
   _jumpMaxAirTime: 1
   _maxPunchCharge: 1

@@ -29,53 +29,20 @@ public class JumpState : IState
 
     public void Enter()
     {
-        Debug.Log("JUMP STATE ENTERED");
-        // _elapsedTimeSinceJump = 0;
         _airTime = 0;
         _startHeight = player.PlayerRigidbody.position.y;
         player.PlayerRigidbody.AddForce(Vector3.up * player.JumpForce + player.PlayerRigidbody.transform.forward * player.JumpForce * speed * 0.5f, ForceMode.Impulse);
+        player.ChangeState(new IdleState(player));
     }
 
     // Update is called once per frame
     public void Update()
     {
-        Debug.Log("A");
-        bool freezeJump = Input.GetKey(KeyCode.Space);
-        // _elapsedTimeSinceJump += Time.deltaTime;
         if (player.PlayerRigidbody.position.y >= _startHeight + player.JumpMaxHeight)
         {
-            // _hasReachedMaxHeight = true;
-            // if (!_hasMadeGroundcheck)
-            // {
-            //     player.AsyncGroundCheck();
-            //     _hasMadeGroundcheck = true;
-            // }
             player.PlayerRigidbody.linearVelocity = Vector3.zero;
             player.PlayerRigidbody.angularVelocity = Vector3.zero;
             player.ChangeState(new IdleState(player));
-           
-            // player.PlayerRigidbody.AddForce(Vector3.down * player.JumpForce *0.75f, ForceMode.Impulse);
-
-            // if (freezeJump && _airTime < player.JumpMaxAirTime)
-            // {
-            //     Debug.Log("C");
-            //     _airTime += Time.deltaTime;
-            //     player.PlayerRigidbody.useGravity = false;
-
-
-
-            // }
-            // else
-            // {
-            //     player.PlayerRigidbody.useGravity = true;
-            //     if (!_addedDownForce)
-            //     {
-            //         player.PlayerRigidbody.AddForce(Vector3.down * player.JumpForce *0.75f, ForceMode.Impulse);
-            //         _addedDownForce = true;
-
-            //     }
-
-            // }
 
         }
 

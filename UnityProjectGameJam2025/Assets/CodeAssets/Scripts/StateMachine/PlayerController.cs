@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Camera _playerCamera; // Assign in Inspector
     public Camera PlayerCamera => _playerCamera;
 
+    [SerializeField] private LayerMask _playerLayer;
+
     [SerializeField] private GameOverController _gameOverController;
 
     [Header("Movement Settings")]
@@ -168,37 +170,32 @@ public class PlayerController : MonoBehaviour
     public bool GroundCheck()
     {
         RaycastHit hit;
-        Vector3 raycastStart = new Vector3 (transform.position.x, transform.position.y + 0.1f, transform.position.z);
-        if (Physics.Raycast(raycastStart, Vector3.down, out hit, 1f))
+        Vector3 raycastStart = new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z);
+        if (Physics.Raycast(raycastStart, Vector3.down, out hit, 0.2f, ~_playerLayer))
         {
-            Debug.DrawRay(raycastStart, Vector3.down * 100f, Color.green, 0.02f, false);
-        }
-
-        if (hit.distance <= 0.2f)
-        {
+            Debug.DrawRay(raycastStart, Vector3.down * 1f, Color.green, 0.02f, false);
+            Debug.Log(hit.collider.gameObject.name);
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
+
     }
 
-    public void AsyncGroundCheck()
-    {
-        StartCoroutine(AwaitGrounded());
-    }
+    // public void AsyncGroundCheck()
+    // {
+    //     StartCoroutine(AwaitGrounded());
+    // }
 
-    IEnumerator AwaitGrounded()
-    {
-        while (!GroundCheck())
-        {
-            yield return null;
-        }
-        Debug.Log("IsGroundedAgain");
+    // IEnumerator AwaitGrounded()
+    // {
+    //     while (!GroundCheck())
+    //     {
+    //         yield return null;
+    //     }
+    //     Debug.Log("IsGroundedAgain");
 
-        ChangeState(new IdleState(this));
-    }
+    //     ChangeState(new IdleState(this));
+    // }
 
     void OnTriggerEnter(Collider other)
     {

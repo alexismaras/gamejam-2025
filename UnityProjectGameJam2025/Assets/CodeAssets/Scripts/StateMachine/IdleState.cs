@@ -13,8 +13,11 @@ public class IdleState : IState
     private float _currentSpeed;
     private Vector3 _lookDirection;
 
+    private bool _isJumping;
+    private float _jumpStartHeight;
+
     
-    public IdleState(PlayerController player) 
+    public IdleState(PlayerController player)
     {
         this.player = player;
     }
@@ -25,23 +28,30 @@ public class IdleState : IState
         _speedParameterHash = Animator.StringToHash("speed");
         _directionParameterHash = Animator.StringToHash("direction");
 
-        player.PlayerAnimator.SetBool("isIdleState", true);
-        player.PlayerAnimator.SetBool("isFightingState", false);
-        player.PlayerAnimator.SetBool("isClimbingState", false);
-
     }
 
     // Update is called once per frame
     public void Update()
     {
         if (player.GroundCheck())
-        ProcessDirectionalInput();
-
-        if (Input.GetKeyDown(KeyCode.Space) && player.GroundCheck())
         {
-            player.ChangeState(new JumpState(player, _currentSpeed));
+            ProcessDirectionalInput();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                player.PlayerRigidbody.AddForce(Vector3.up * player.JumpForce + player.PlayerRigidbody.transform.forward * player.JumpForce * _currentSpeed * 0.2f, ForceMode.Impulse);
+                _jumpStartHeight = player.PlayerRigidbody.position.y;
+                _isJumping = true;
+                player.PlayerAnimator.SetFloat(_speedParameterHash, 0, player.WalkingAcceleration, Time.deltaTime);
+                player.PlayerAnimator.SetFloat(_directionParameterHash, 0, player.WalkingAcceleration, Time.deltaTime);
+            }
         }
-        
+        else 
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                player.PlayerRigidbody.AddForce(Vector3.down * player.JumpForce * 0.5f, ForceMode.Impulse);
+            }
+        }
     }
     
     // Sets Animator floats based on verical and horizontal Input, Invoked by CharacterStateMachine Class if State is Idle
@@ -78,12 +88,6 @@ public class IdleState : IState
 
     }
 
-    // Gets Called by CharacterStateMachine
-    // Determines wheter running-jump-animation or standing-jump-animation is played, based on animators speed param
-    // NOTE: I should probably outsource that logic to the animator
-    // NOTE: Currently there is only a standing-jump and running-jump animation but no walking-jump animation... 
-    //       additionally, the jump animations root motion in y direction are baked into pose so jumping does nothing than looking like jumping
-    
 
     // Gets normalized look Direction of Camera, so this Gameobject can rotate in this Direction.
     void GetLookDirection()

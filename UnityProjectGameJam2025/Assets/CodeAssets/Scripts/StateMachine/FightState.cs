@@ -21,92 +21,45 @@ public class FightState : IState
 
     public void Enter()
     {
-        // _speedParameterHash = Animator.StringToHash("speed");
-        // _directionParameterHash = Animator.StringToHash("direction");
 
-        // player.PlayerAnimator.SetBool("isIdleState", false);
-        // player.PlayerAnimator.SetBool("isFightingState", true);
-        // player.PlayerAnimator.SetBool("isClimbingState", false);
 
-        LeftPunch();
+        int randomNumber = UnityEngine.Random.Range(0, 4);
 
-        player.AsyncGroundCheck();
+        switch (randomNumber)
+        {
+            case 0:
+                LeftPunch();
+                break;
+
+
+            case 1:
+                RightPunch();
+                break;
+
+            case 2:
+                LeftKick();
+                break;
+                
+            case 3:
+                RightKick();
+                break;
+        }
+
         
+
+        player.ChangeState(new IdleState(player));
     }
 
     // Update is called once per frame
     public void Update()
     {
 
-        // ProcessDirectionalInput();
-
-        // if (player.PlayerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Punch Left"))
-        // {
-        //     player.ChangeState(new IdleState(player));
-        // }
-        // if (Input.GetKeyDown(KeyCode.Mouse0))
-        // {
-        //     LeftPunch();
-        //     player.ChangeState(new IdleState(player));
-        // }
-
-            // if (Input.GetKeyDown(KeyCode.Mouse1))
-            // {
-            //     RightPunch();
-            //     player.ChangeState(new IdleState(player));
-            // }
-
-            // if (Input.GetKeyDown(KeyCode.Mouse2))
-            // {
-            //     Headbutt();
-            //     player.ChangeState(new IdleState(player));
-            // }
-
-            // if (Input.GetKeyDown(KeyCode.X))
-            // {
-            //     LeftKick();
-            //     player.ChangeState(new IdleState(player));
-            // }
-            // if (Input.GetKeyDown(KeyCode.C))
-            // {
-            //     RightKick();
-            //     player.ChangeState(new IdleState(player));
-            // }
-
     }
 
     // Sets Animator floats based on verical and horizontal Input, Invoked by CharacterStateMachine Class if State is Fighting
     // Rotates Rigidbody in Camera Direction
-    public void ProcessDirectionalInput()
-    {
-        float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInput = Input.GetAxis("Horizontal");
-        bool shouldRun = Input.GetKey(KeyCode.LeftControl);
-
-        float direction = horizontalInput;
-        float speed = verticalInput;
-
-        if (shouldRun)
-        {
-            speed *= 2;
-        }
-
-        GetLookDirection();
-
-        player.PlayerAnimator.SetFloat(_speedParameterHash, speed, _locomotionDampingParameter, Time.deltaTime);
-        player.PlayerAnimator.SetFloat(_directionParameterHash, direction, _locomotionDampingParameter, Time.deltaTime);
-
-        Vector3 newDirection = Vector3.RotateTowards(player.PlayerTransform.forward, _lookDirection, 20f* Time.deltaTime, 0.0f);
-        player.PlayerRigidbody.MoveRotation(Quaternion.LookRotation(newDirection));
-    }
 
     // Gets normalized look Direction of Camera, so this Gameobject can rotate in this Direction.
-    void GetLookDirection()
-    {
-        _lookDirection = (player.PlayerTransform.position - new Vector3(player.PlayerCamera.transform.position.x, player.PlayerTransform.position.y, player.PlayerCamera.transform.position.z)).normalized;
-        
-    }
-
     public void LeftPunch()
     {
         player.PlayerAnimator.SetTrigger("Punch Left");
