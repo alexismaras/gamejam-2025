@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/CodeAssets/UI/UiScenes/MainMenu.unity
     guid: 171e8cdc8b9b3c4478467b6d323acce5
   - enabled: 1
+    path: Assets/LevelDesign/Scenes/BarLevel_BackUp.unity
+    guid: 9c890b70de74f834fa603b39fe0e94f0
+  - enabled: 0
     path: Assets/LevelDesign/Scenes/BarLevel_Test.unity
     guid: a3631b83ce0a8c84c85091f51ee8a1a1
   m_configObjects:
