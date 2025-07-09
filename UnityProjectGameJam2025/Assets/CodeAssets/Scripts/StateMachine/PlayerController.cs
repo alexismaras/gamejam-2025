@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     public Camera PlayerCamera => _playerCamera;
 
     [SerializeField] private LayerMask _playerLayer;
+    [SerializeField] private AudioSource _chargeUpSound;
+
 
     [SerializeField] private GameOverController _gameOverController;
 
@@ -75,11 +77,13 @@ public class PlayerController : MonoBehaviour
         PlayerCollider = GetComponent<Collider>();
         IceCubeUnit.OnAssignPointsToPlayer += HandleAssignPointsToPlayer;
         DeadZoneScript.OnDeadZoneEntered += HandleDeadZoneEntered;
+        HandEnemyController.OnHandSmash += HandleHandSmash;
         _attackSource = GetComponent<AttackSource>();
 
     }
     void Start()
     {
+        Time.timeScale = 1;
         ChangeState(new IdleState(this));
         _punchChargeSliderInitialFillColor = _punchChargeSliderFillImage.color;
         _punchChargeSliderTargetFillColor = Color.red;
@@ -89,6 +93,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("TiMESCALE IS 1: " + (Time.timeScale == 1));
         PlayerTransform = this.gameObject.transform;
         GroundCheck();
         currentState?.Update();
@@ -105,6 +110,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0) && currentState is not FightState)
         {
             _chargingUpPunch = true;
+            _chargeUpSound.Play();
             _punchChargeValue = 0;
             _punchChargeSlider.value = 0;
             _punchChargeSlider.maxValue = _maxPunchCharge;
@@ -115,6 +121,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Mouse0) && currentState is not FightState)
         {
             _chargingUpPunch = false;
+            _chargeUpSound.Stop();
             _punchChargeValue = 0;
             _punchChargeSlider.value = 0;
             // _punchChargeSlider.gameObject.SetActive(false);
@@ -155,6 +162,11 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    void HandleHandSmash()
+    {
+        KillPlayer();
+    }
+
     public void KillPlayer()
     {
         _gameOverController.GameOver();
@@ -180,22 +192,6 @@ public class PlayerController : MonoBehaviour
         return false;
 
     }
-
-    // public void AsyncGroundCheck()
-    // {
-    //     StartCoroutine(AwaitGrounded());
-    // }
-
-    // IEnumerator AwaitGrounded()
-    // {
-    //     while (!GroundCheck())
-    //     {
-    //         yield return null;
-    //     }
-    //     Debug.Log("IsGroundedAgain");
-
-    //     ChangeState(new IdleState(this));
-    // }
 
     void OnTriggerEnter(Collider other)
     {
@@ -224,6 +220,8 @@ public class PlayerController : MonoBehaviour
 
     void OnDestroy()
     {
-        IceCubeUnit.OnAssignPointsToPlayer -= HandleAssignPointsToPlayer;        
+        IceCubeUnit.OnAssignPointsToPlayer -= HandleAssignPointsToPlayer;   
+        DeadZoneScript.OnDeadZoneEntered -= HandleDeadZoneEntered;
+        HandEnemyController.OnHandSmash -= HandleHandSmash;     
     }
 }
