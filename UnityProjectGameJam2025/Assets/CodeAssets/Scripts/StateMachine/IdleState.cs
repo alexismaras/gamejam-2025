@@ -38,15 +38,16 @@ public class IdleState : IState
             ProcessDirectionalInput();
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                player.PlayerRigidbody.AddForce(Vector3.up * player.JumpForce + player.PlayerRigidbody.transform.forward * player.JumpForce * _currentSpeed * 0.2f, ForceMode.Impulse);
+                player.PlayerRigidbody.AddForce(Vector3.up * player.JumpForce + player.PlayerRigidbody.transform.forward * player.JumpForce * _currentSpeed * 0.3f, ForceMode.Impulse);
                 _jumpStartHeight = player.PlayerRigidbody.position.y;
                 _isJumping = true;
-                player.PlayerAnimator.SetFloat(_speedParameterHash, 0, player.WalkingAcceleration, Time.deltaTime);
-                player.PlayerAnimator.SetFloat(_directionParameterHash, 0, player.WalkingAcceleration, Time.deltaTime);
+                
             }
         }
         else 
         {
+            player.PlayerAnimator.SetFloat(_speedParameterHash, 0, player.WalkingAcceleration, Time.deltaTime);
+            player.PlayerAnimator.SetFloat(_directionParameterHash, 0, player.WalkingAcceleration, Time.deltaTime);
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 player.PlayerRigidbody.AddForce(Vector3.down * player.JumpForce * 0.5f, ForceMode.Impulse);
