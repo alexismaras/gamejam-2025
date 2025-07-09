@@ -83,7 +83,6 @@ public class PlayerController : MonoBehaviour
     }
     void Start()
     {
-        Time.timeScale = 1;
         ChangeState(new IdleState(this));
         _punchChargeSliderInitialFillColor = _punchChargeSliderFillImage.color;
         _punchChargeSliderTargetFillColor = Color.red;
